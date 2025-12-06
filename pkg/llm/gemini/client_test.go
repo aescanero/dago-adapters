@@ -40,7 +40,7 @@ func TestNewClient(t *testing.T) {
 				t.Error("NewClient() returned nil client")
 			}
 			if client != nil {
-				client.Close()
+				_ = client.Close()
 			}
 		})
 	}
@@ -51,7 +51,7 @@ func TestGenerateCompletion(t *testing.T) {
 
 	t.Run("invalid request type", func(t *testing.T) {
 		client, _ := NewClient("test-key", logger)
-		defer client.Close()
+		defer func() { _ = client.Close() }()
 
 		_, err := client.GenerateCompletion(context.Background(), "invalid")
 		if err == nil {
@@ -61,7 +61,7 @@ func TestGenerateCompletion(t *testing.T) {
 
 	t.Run("valid request structure", func(t *testing.T) {
 		client, _ := NewClient("test-key", logger)
-		defer client.Close()
+		defer func() { _ = client.Close() }()
 
 		req := &domain.LLMRequest{
 			Model: "gemini-2.0-flash-exp",
@@ -92,7 +92,7 @@ func TestGenerateCompletion_Integration(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Failed to create client: %v", err)
 	}
-	defer client.Close()
+	defer func() { _ = client.Close() }()
 
 	req := &domain.LLMRequest{
 		Model: "gemini-2.0-flash-exp",

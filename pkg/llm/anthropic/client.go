@@ -65,11 +65,12 @@ func (c *Client) GenerateCompletion(ctx context.Context, req interface{}) (inter
 	messages := make([]anthropicsdk.MessageParam, 0, len(llmReq.Messages))
 	for _, msg := range llmReq.Messages {
 		// Create text block for message content
-		if msg.Role == "user" {
+		switch msg.Role {
+		case "user":
 			messages = append(messages, anthropicsdk.NewUserMessage(
 				anthropicsdk.NewTextBlock(msg.Content),
 			))
-		} else if msg.Role == "assistant" {
+		case "assistant":
 			messages = append(messages, anthropicsdk.NewAssistantMessage(
 				anthropicsdk.NewTextBlock(msg.Content),
 			))
