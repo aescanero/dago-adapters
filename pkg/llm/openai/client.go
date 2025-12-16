@@ -17,12 +17,22 @@ type Client struct {
 }
 
 // NewClient creates a new OpenAI client
-func NewClient(apiKey string, logger *zap.Logger) (*Client, error) {
+// baseURL is optional and defaults to OpenAI's official API endpoint
+func NewClient(apiKey, baseURL string, logger *zap.Logger) (*Client, error) {
 	if apiKey == "" {
 		return nil, fmt.Errorf("API key is required")
 	}
 
-	client := openai.NewClient(apiKey)
+	var client *openai.Client
+	if baseURL != "" {
+		// Use custom base URL for OpenAI-compatible endpoints
+		config := openai.DefaultConfig(apiKey)
+		config.BaseURL = baseURL
+		client = openai.NewClientWithConfig(config)
+	} else {
+		// Use official OpenAI endpoint
+		client = openai.NewClient(apiKey)
+	}
 
 	return &Client{
 		client: client,

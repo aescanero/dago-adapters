@@ -31,7 +31,7 @@ func NewClient(cfg *Config) (ports.LLMClient, error) {
 		return anthropic.NewClient(cfg.APIKey, cfg.Logger)
 
 	case "openai", "gpt":
-		return openai.NewClient(cfg.APIKey, cfg.Logger)
+		return openai.NewClient(cfg.APIKey, cfg.BaseURL, cfg.Logger)
 
 	case "gemini", "google":
 		return gemini.NewClient(cfg.APIKey, cfg.Logger)
