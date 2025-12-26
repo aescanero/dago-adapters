@@ -3,7 +3,7 @@ module github.com/aescanero/dago-adapters
 go 1.25.5
 
 require (
-	github.com/aescanero/dago-libs v0.2.0
+	github.com/aescanero/dago-libs v0.2.1
 
 	// LLM Providers
 	github.com/anthropics/anthropic-sdk-go v1.17.0
